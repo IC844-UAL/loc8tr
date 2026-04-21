@@ -1,7 +1,114 @@
 body {
   padding-top: 80px;
+  background: #f7f7f5;
+  color: #222;
 }
 
 .content {
   padding: 20px 0;
+  min-height: calc(100vh - 120px);
+}
+
+.location-minimal {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.minimal-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.minimal-address {
+  color: #666;
+}
+
+.minimal-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.minimal-section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.minimal-rating i {
+  color: #4d4d4d;
+  font-size: 0.9rem;
+}
+
+.minimal-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.minimal-row:last-child {
+  border-bottom: none;
+}
+
+.minimal-row-label {
+  color: #555;
+}
+
+.minimal-row-value {
+  font-weight: 500;
+}
+
+.minimal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.minimal-tag {
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  background: #fafafa;
+}
+
+.minimal-review {
+  border-top: 1px solid #f0f0f0;
+  padding: 12px 0;
+}
+
+.minimal-review:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.minimal-review-author {
+  font-weight: 600;
+}
+
+.minimal-nav {
+  border-bottom: 1px solid #ececec;
+}
+
+.minimal-nav .navbar-brand {
+  letter-spacing: 0.2px;
+}
+
+.minimal-nav .nav-link {
+  color: #555;
+}
+
+.minimal-nav .nav-link:hover {
+  color: #111;
+}
+
+.minimal-footer {
+  margin-top: 28px;
+  padding-top: 12px;
+  border-top: 1px solid #ececec;
+  color: #777;
+  text-align: center;
 }

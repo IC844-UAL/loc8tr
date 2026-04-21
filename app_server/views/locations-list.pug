@@ -1,29 +1,34 @@
 extends layout
 
 block content
-  .row.banner.border-bottom.mb-4
-    .col-12
-      h1 Mean Project
-        small.text-muted.fs-3 Find places to work with wifi near you!
-  .row
-    .col-12.col-md-8
-      .card
-        .card-body
-          h4
-            a(href="/location") Starcups
-            small &nbsp;
-              i.fas.fa-star
-              i.fas.fa-star
-              i.fas.fa-star
-              i.fas.fa-star
-              i.fas.fa-star
-            span.badge.rounded-pill.bg-primary.float-end 100m
-          p.address 125 High Street, Reading, RG6 1PS
-          p.facilities
-            span.badge.bg-warning Hot drinks
-            |
-            span.badge.bg-warning Food
-            |
-            span.badge.bg-warning Premium wifi
-    .col-12.col-md-4
-      p.lead Mean Project helps you find places to work while out and about.
+  .location-minimal
+    .minimal-header.mb-4
+      h1.minimal-title Mean Project
+      p.minimal-address.mb-0 Find places to work with wifi near you.
+    .row.g-3
+      .col-12.col-lg-8
+      if locations && locations.length
+        each item in locations
+          .minimal-card.mb-3
+            h2.minimal-section-title.mb-2
+              a.link-dark.text-decoration-none(href=`/location/${item._id}`)= item.name
+            .minimal-rating.mb-2
+              - const stars = Math.round(item.rating || 0)
+              each val in [1,2,3,4,5]
+                if val <= stars
+                  i.fas.fa-star
+                else
+                  i.far.fa-star
+              span.ms-2.text-muted.small= `${item.rating || 0}/5`
+            p.minimal-address.mb-2= item.address
+            if item.facilities && item.facilities.length
+              .minimal-tags
+                each fac in item.facilities
+                  span.minimal-tag= fac
+      else
+        .minimal-card
+          p.mb-0 No locations loaded yet. Run `npm run seed`.
+      .col-12.col-lg-4
+        .minimal-card
+          h2.minimal-section-title About this app
+          p.mb-0 Mean Project helps you find quiet and practical places to study or work.

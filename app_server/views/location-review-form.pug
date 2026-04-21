@@ -1,27 +1,29 @@
 extends layout
 
 block content
-  .row.banner.border-bottom.mb-4
-    .col-12
-      h1 Review Starcups
-  .row
-    .col-12.col-md-8
-      form(action="/location", method="get", role="form")
-        .form-group.row
-          label.col-10.col-sm-2.col-form-label(for="name") Name
-          .col-12.col-sm-10
-            input#name.form-control(name="name")
-        .form-group.row
-          label.col-10.col-sm-2.col-form-label(for="rating") Rating
-          .col-12.col-sm-2
-            select#rating.form-control.input-sm(name="rating")
+  .location-minimal
+    .minimal-header.mb-4
+      h1.minimal-title Review #{location.name}
+      p.minimal-address.mb-0 Share a short and honest experience.
+    .row
+      .col-12.col-lg-8
+        .minimal-card
+      if formError
+        .alert.alert-danger= formError
+      form(action=`/location/${location._id}/review/new`, method="post", role="form")
+        .mb-3
+          label.form-label(for="name") Name
+          input#name.form-control(name="name", required)
+        .mb-3
+          label.form-label(for="rating") Rating
+          select#rating.form-select(name="rating", required)
               option 5
               option 4
               option 3
               option 2
               option 1
-        .form-group.row
-          label.col-10.col-sm-2.col-form-label(for="review") Review
-          .col-sm-10
-            textarea#review.form-control(name="review", rows="5")
-        button.btn.btn-primary.float-end Add my review
+        .mb-3
+          label.form-label(for="review") Review
+          textarea#review.form-control(name="review", rows="5", required)
+        .d-flex.justify-content-end
+          button.btn.btn-dark(type="submit") Add my review

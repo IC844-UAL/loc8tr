@@ -1,6 +1,10 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .location-minimal
+    .minimal-card
+      h1.minimal-title= message
+      if error && error.status
+        p.text-muted.mb-2 Status: #{error.status}
+      if error && error.stack
+        pre.small.mb-0= error.stack

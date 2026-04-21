@@ -1,52 +1,57 @@
 extends layout
 
 block content
-  .row.banner.border-bottom.mb-4
-    .col-12
-      h1 Starcups
-  .row
-    .col-12.col-lg-9
-      .row
-        .col-12.col-md-6
-          p.rating
+  .location-minimal
+    .minimal-header.mb-4
+      h1.minimal-title= location.name
+      p.minimal-address.mb-2= location.address
+      .minimal-rating
+        - const stars = Math.round(location.rating || 0)
+        each val in [1,2,3,4,5]
+          if val <= stars
             i.fas.fa-star
-            i.fas.fa-star
-            i.fas.fa-star
-            i.fas.fa-star
-            i.fas.fa-star
-          p.address 125 High Street, Reading, RG6 1PS
-          .card
-            .card-body
-              h2.card-title Opening hours
-              p.card-text Monday - Friday: 7:00am - 7:00pm
-              p.card-text Saturday: 8:00am - 5:00pm
-              p.card-text Sunday: Closed
-          .card
-            .card-body
-              h2.card-title Facilities
-              p.card-text
-                span.badge.bg-warning Hot drinks
-                |
-                span.badge.bg-warning Food
-                |
-                span.badge.bg-warning Premium wifi
-      .row
-        .col-12
-          .card
-            .card-body
-              .d-flex.justify-content-between.align-items-center
-                h2.card-title Customer reviews
-                a.btn.btn-primary(href="/location/review/new") Add review
-              .review.mb-3
-                .review-header
-                  span.rating
-                    i.fas.fa-star
-                    i.fas.fa-star
-                    i.fas.fa-star
-                    i.far.fa-star
-                    i.far.fa-star
-                  span.ms-2 Simon Holmes
-                  small.text-muted.ms-2 16 February 2019
-                p What a great place.
-    .col-12.col-lg-3
-      p.lead Starcups is listed because it has wifi and laptop-friendly space.
+          else
+            i.far.fa-star
+        span.ms-2.text-muted.small= `${location.rating || 0}/5`
+
+    .row.g-3
+      .col-12.col-lg-7
+        .minimal-card
+          h2.minimal-section-title Opening hours
+          each time in location.openingTimes
+            .minimal-row
+              span.minimal-row-label= time.days
+              if time.closed
+                span.minimal-row-value Closed
+              else
+                span.minimal-row-value= `${time.opening} - ${time.closing}`
+
+        .minimal-card.mt-3
+          .d-flex.justify-content-between.align-items-center.mb-3
+            h2.minimal-section-title.mb-0 Reviews
+            a.btn.btn-sm.btn-outline-dark(href=`/location/${location._id}/review/new`) Add review
+          if location.reviews && location.reviews.length
+            each review in location.reviews
+              .minimal-review
+                .d-flex.justify-content-between.align-items-center
+                  .minimal-rating
+                    - const reviewStars = Math.round(review.rating || 0)
+                    each val in [1,2,3,4,5]
+                      if val <= reviewStars
+                        i.fas.fa-star
+                      else
+                        i.far.fa-star
+                  small.text-muted= new Date(review.createdOn).toLocaleDateString()
+                p.minimal-review-author.mb-1= review.author
+                p.mb-0= review.reviewText
+          else
+            p.text-muted.mb-0 There are no reviews yet.
+      .col-12.col-lg-5
+        .minimal-card
+          h2.minimal-section-title Facilities
+          if location.facilities && location.facilities.length
+            .minimal-tags
+              each facility in location.facilities
+                span.minimal-tag= facility
+          else
+            p.text-muted.mb-0 No facilities listed.
