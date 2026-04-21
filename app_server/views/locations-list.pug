@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .row.banner.border-bottom.mb-4
+    .col-12
+      h1 Mean Project
+        small.text-muted.fs-3 Find places to work with wifi near you!
+  .row
+    .col-12.col-md-8
+      .card
+        .card-body
+          h4
+            a(href="/location") Starcups
+            small &nbsp;
+              i.fas.fa-star
+              i.fas.fa-star
+              i.fas.fa-star
+              i.fas.fa-star
+              i.fas.fa-star
+            span.badge.rounded-pill.bg-primary.float-end 100m
+          p.address 125 High Street, Reading, RG6 1PS
+          p.facilities
+            span.badge.bg-warning Hot drinks
+            |
+            span.badge.bg-warning Food
+            |
+            span.badge.bg-warning Premium wifi
+    .col-12.col-md-4
+      p.lead Mean Project helps you find places to work while out and about.

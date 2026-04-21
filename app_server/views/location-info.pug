@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  .row.banner.border-bottom.mb-4
+    .col-12
+      h1 Starcups
+  .row
+    .col-12.col-lg-9
+      .row
+        .col-12.col-md-6
+          p.rating
+            i.fas.fa-star
+            i.fas.fa-star
+            i.fas.fa-star
+            i.fas.fa-star
+            i.fas.fa-star
+          p.address 125 High Street, Reading, RG6 1PS
+          .card
+            .card-body
+              h2.card-title Opening hours
+              p.card-text Monday - Friday: 7:00am - 7:00pm
+              p.card-text Saturday: 8:00am - 5:00pm
+              p.card-text Sunday: Closed
+          .card
+            .card-body
+              h2.card-title Facilities
+              p.card-text
+                span.badge.bg-warning Hot drinks
+                |
+                span.badge.bg-warning Food
+                |
+                span.badge.bg-warning Premium wifi
+      .row
+        .col-12
+          .card
+            .card-body
+              .d-flex.justify-content-between.align-items-center
+                h2.card-title Customer reviews
+                a.btn.btn-primary(href="/location/review/new") Add review
+              .review.mb-3
+                .review-header
+                  span.rating
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.far.fa-star
+                    i.far.fa-star
+                  span.ms-2 Simon Holmes
+                  small.text-muted.ms-2 16 February 2019
+                p What a great place.
+    .col-12.col-lg-3
+      p.lead Starcups is listed because it has wifi and laptop-friendly space.
