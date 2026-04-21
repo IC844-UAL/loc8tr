@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    env:
+      MONGO_ROOT_USER: root
+      MONGO_ROOT_PASSWORD: ci_secret
+      MONGO_DATABASE: meanapp
+      MONGO_HOST: 127.0.0.1
+      MONGO_PORT: 27017
+
+    services:
+      mongo:
+        image: mongo:7
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: ci_secret
+          MONGO_INITDB_DATABASE: meanapp
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run JavaScript syntax checks
+        run: |
+          git ls-files '*.js' | xargs -n1 node --check
+
+      - name: Seed database
+        run: npm run seed:reset
+
+      - name: Start app and run API smoke tests
+        run: |
+          npm start &
+          for i in {1..20}; do
+            if curl -sSf http://127.0.0.1:3000/api/locations > /tmp/locations.json; then
+              break
+            fi
+            sleep 2
+          done
+          test -s /tmp/locations.json
+          grep -q '\[' /tmp/locations.json
