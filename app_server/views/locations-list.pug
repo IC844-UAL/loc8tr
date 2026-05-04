@@ -7,6 +7,9 @@ block content
       p.minimal-address.mb-0 Find places to work with wifi near you.
     .row.g-3
       .col-12.col-lg-8
+      if listMessage
+        .minimal-card.mb-3
+          p.mb-0= listMessage
       if locations && locations.length
         each item in locations
           .minimal-card.mb-3

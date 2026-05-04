@@ -5,3 +5,7 @@ block content
     .minimal-card
       h1.minimal-title= title
       p.mb-0 Bienvenido a tu proyecto MVC con Express.
+      if locationCount != null
+        p.mb-0.mt-2.text-muted.small Currently #{locationCount} location(s) available via the API.
+      if apiUnavailable
+        p.mb-0.mt-2.text-muted.small API data was not available; count is hidden.
