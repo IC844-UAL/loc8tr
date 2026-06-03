@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         MONGO_ROOT_USER     = 'root'
-        MONGO_ROOT_PASSWORD = 'ci_secret'
+        MONGO_ROOT_PASSWORD = 'mean_dev_secret_change_me'
         MONGO_DATABASE      = 'meanapp'
         MONGO_HOST          = 'host.docker.internal'
-        MONGO_PORT          = '27018'
+        MONGO_PORT          = '27017'
     }
 
     stages {
@@ -28,17 +28,18 @@ pipeline {
             }
         }
 
-        stage('Start MongoDB') {
+        stage('Wait for MongoDB') {
             steps {
                 sh '''
-                    docker rm -f jenkins-mongo || true
-                    docker run -d --name jenkins-mongo \
-                      -p 27018:27017 \
-                      -e MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USER \
-                      -e MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD \
-                      -e MONGO_INITDB_DATABASE=$MONGO_DATABASE \
-                      mongo:7
-                    sleep 10
+                    for i in $(seq 1 20); do
+                      if node -e "const n=require('net');const s=n.createConnection({host:process.env.MONGO_HOST,port:Number(process.env.MONGO_PORT)},()=>{s.end();process.exit(0)});s.on('error',()=>process.exit(1));"; then
+                        echo "MongoDB is reachable"
+                        exit 0
+                      fi
+                      sleep 2
+                    done
+                    echo "MongoDB is not reachable at $MONGO_HOST:$MONGO_PORT"
+                    exit 1
                 '''
             }
         }
@@ -68,12 +69,6 @@ pipeline {
                     kill $APP_PID || true
                 '''
             }
-        }
-    }
-
-    post {
-        always {
-            sh 'docker rm -f jenkins-mongo || true'
         }
     }
 }
