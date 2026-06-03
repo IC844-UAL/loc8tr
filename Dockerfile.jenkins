@@ -15,4 +15,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && usermod -aG docker jenkins
 
+COPY jenkins/plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+
+COPY jenkins/init/ /usr/share/jenkins/ref/init.groovy.d/
+
 USER jenkins
