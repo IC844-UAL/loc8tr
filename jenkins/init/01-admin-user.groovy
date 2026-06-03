@@ -17,6 +17,8 @@ def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
 strategy.setAllowAnonymousRead(false)
 instance.setAuthorizationStrategy(strategy)
 
+instance.setCrumbIssuer(null)
+
 instance.save()
 
-println "Jenkins users created: admin / profesor"
+println "Jenkins users created: admin / profesor (CSRF disabled for ngrok demo)"
