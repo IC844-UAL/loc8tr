@@ -5,8 +5,8 @@ pipeline {
         MONGO_ROOT_USER     = 'root'
         MONGO_ROOT_PASSWORD = 'ci_secret'
         MONGO_DATABASE      = 'meanapp'
-        MONGO_HOST          = '127.0.0.1'
-        MONGO_PORT          = '27017'
+        MONGO_HOST          = 'host.docker.internal'
+        MONGO_PORT          = '27018'
     }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
                 sh '''
                     docker rm -f jenkins-mongo || true
                     docker run -d --name jenkins-mongo \
-                      -p 27017:27017 \
+                      -p 27018:27017 \
                       -e MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USER \
                       -e MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD \
                       -e MONGO_INITDB_DATABASE=$MONGO_DATABASE \
